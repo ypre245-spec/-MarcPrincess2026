@@ -192,9 +192,17 @@
                 </div>
             </div>
             
-            <a href="#details" class="inline-block mt-4 mb-10 pb-1 border-b border-wedding-gold text-wedding-gold font-sans text-xs tracking-[0.2em] uppercase hover:text-wedding-cream hover:border-wedding-cream transition-colors z-10 relative">
-                See Details
-            </a>
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-6 mt-8 mb-10 z-10 relative">
+                <a href="#details" class="pb-1 border-b border-wedding-gold text-wedding-gold font-sans text-xs tracking-[0.2em] uppercase hover:text-wedding-cream hover:border-wedding-cream transition-colors">
+                    See Details
+                </a>
+                <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Wedding+of+Marc+%26+Princess&dates=20260430T053000Z/20260430T100000Z&details=Join+us+for+our+wedding+celebration!&location=Sto.+Rosario+Parish,+Paraiso,+Sagay+City" target="_blank" rel="noopener noreferrer" class="px-6 py-2 border border-wedding-gold text-wedding-gold font-sans text-xs tracking-[0.2em] uppercase hover:bg-wedding-gold hover:text-wedding-dark transition-colors rounded-full flex items-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                    Add to Calendar
+                </a>
+            </div>
+
+            <p class="font-script text-3xl text-wedding-light/80 mt-4 z-10 relative tracking-wide">#PrincessFoundHerMarc</p>
         </div>
     </section>
 
@@ -472,25 +480,38 @@
             
             <!-- Dress Code -->
             <div class="bg-white/70 backdrop-blur rounded-2xl p-8 md:p-12 shadow-sm border border-wedding-light/20 mb-12">
-                <h2 class="font-script text-5xl md:text-6xl text-wedding-dark text-center mb-8">Dress Code</h2>
+                <h2 class="font-script text-5xl md:text-6xl text-wedding-dark text-center mb-10">Dress Code</h2>
                 
-                <div class="flex justify-center gap-2 md:gap-4 mb-10 flex-wrap">
-                    <div class="w-10 h-10 md:w-14 md:h-14 rounded-full bg-[#203D20] shadow-inner border border-black/10"></div>
-                    <div class="w-10 h-10 md:w-14 md:h-14 rounded-full bg-[#71A05E] shadow-inner border border-black/10"></div>
-                    <div class="w-10 h-10 md:w-14 md:h-14 rounded-full bg-[#768A48] shadow-inner border border-black/10"></div>
-                    <div class="w-10 h-10 md:w-14 md:h-14 rounded-full bg-[#417513] shadow-inner border border-black/10"></div>
-                    <div class="w-10 h-10 md:w-14 md:h-14 rounded-full bg-[#B39352] shadow-inner border border-black/10"></div>
-                    <div class="w-10 h-10 md:w-14 md:h-14 rounded-full bg-[#E5C28F] shadow-inner border border-black/10"></div>
-                </div>
-
                 <div class="grid md:grid-cols-2 gap-10">
-                    <div class="text-center md:text-right border-b md:border-b-0 md:border-r border-wedding-light/20 pb-8 md:pb-0 md:pr-8">
+                    <!-- Men -->
+                    <div class="flex flex-col items-center md:items-end text-center md:text-right border-b md:border-b-0 md:border-r border-wedding-light/20 pb-8 md:pb-0 md:pr-8">
                         <h3 class="font-serif text-2xl font-bold text-wedding-dark mb-4 uppercase">Men</h3>
+                        
+                        <div class="flex justify-center md:justify-end gap-2 mb-6 flex-wrap">
+                            <div class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-[#1A3B26] shadow-inner border border-black/10"></div>
+                            <div class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-[#6A9A5C] shadow-inner border border-black/10"></div>
+                            <div class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-[#697A3B] shadow-inner border border-black/10"></div>
+                            <div class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-[#4C8014] shadow-inner border border-black/10"></div>
+                            <div class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-[#B49352] shadow-inner border border-black/10"></div>
+                            <div class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-[#E6C38A] shadow-inner border border-black/10"></div>
+                        </div>
+
                         <p class="font-sans text-sm mb-2"><span class="font-bold">Principal Sponsors:</span> Barong Tagalog</p>
                         <p class="font-sans text-sm"><span class="font-bold">Guests:</span> Formal Attire aligned with our palette</p>
                     </div>
-                    <div class="text-center md:text-left pt-2 md:pt-0 md:pl-8">
+                    
+                    <!-- Women -->
+                    <div class="flex flex-col items-center md:items-start text-center md:text-left pt-2 md:pt-0 md:pl-8">
                         <h3 class="font-serif text-2xl font-bold text-wedding-dark mb-4 uppercase">Women</h3>
+
+                        <div class="flex justify-center md:justify-start gap-2 mb-6 flex-wrap">
+                            <div class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-[#1A3B26] shadow-inner border border-black/10"></div>
+                            <div class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-[#6A9A5C] shadow-inner border border-black/10"></div>
+                            <div class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-[#C1F069] shadow-inner border border-black/10"></div>
+                            <div class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-[#4C8014] shadow-inner border border-black/10"></div>
+                            <div class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-[#76CF49] shadow-inner border border-black/10"></div>
+                        </div>
+
                         <p class="font-sans text-sm leading-relaxed"><span class="font-bold">Principal Sponsors & Guests:</span><br> Long Gown / Long Dress aligned with our palette</p>
                     </div>
                 </div>
@@ -506,54 +527,6 @@
                 <p class="font-sans text-sm md:text-base leading-loose max-w-2xl mx-auto uppercase tracking-wide relative z-10">
                     With all that we have been truly blessed. Your presence and prayers are all we request. However, if you desire to give, monetary gifts is one we highly suggest.
                 </p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Programme Section -->
-    <section id="programme" class="py-20 px-4 relative z-10 bg-wedding-cream">
-        <div class="max-w-3xl mx-auto text-center reveal">
-            <h2 class="font-script text-5xl md:text-6xl text-wedding-dark mb-12">Programme</h2>
-            
-            <div class="font-sans text-sm md:text-base text-wedding-dark/80 text-left md:text-center max-w-2xl mx-auto bg-white/50 backdrop-blur p-8 rounded-xl border border-wedding-light/20">
-                <ul class="space-y-4">
-                    <li class="font-bold text-wedding-green text-lg">Opening / Welcome</li>
-                    <li>
-                        <span class="font-bold">Entrance & Intro of the Wedding Party</span>
-                        <ul class="list-disc list-inside pl-4 mt-2 space-y-1 text-sm md:text-center">
-                            <li>Parents of the Bride</li>
-                            <li>Parents of the Groom</li>
-                            <li>Principal Sponsors</li>
-                            <li>Secondary Sponsors</li>
-                            <li>Bridesmaids and Groomsmen</li>
-                            <li>Maid/Matron of Honor & Best Man</li>
-                            <li class="text-wedding-olive font-medium">Entrance of the Newlyweds (Bride and Groom)</li>
-                        </ul>
-                    </li>
-                    <li class="font-bold pt-2">Opening Prayer</li>
-                    <li class="font-bold">Welcome Message</li>
-                    <li>
-                        <span class="font-bold">Special Dances</span>
-                        <ul class="list-disc list-inside pl-4 mt-1 space-y-1 text-sm md:text-center">
-                            <li>Bride and Father Dance</li>
-                            <li>Groom and Mother Dance</li>
-                        </ul>
-                    </li>
-                    <li>
-                        <span class="font-bold">First Dance</span>
-                        <p class="text-sm mt-1">First dance of the bride and groom.</p>
-                    </li>
-                    <li class="font-bold text-wedding-green text-lg pt-2">Dinner Proper</li>
-                    <li class="font-bold">Toast to the Newlyweds (Best Man)</li>
-                    <li class="font-bold">Message from the Maid of Honor</li>
-                    <li class="font-bold text-wedding-green text-lg pt-2">Cake Cutting Ceremony</li>
-                    <li class="font-bold">Wine or Champagne Toast</li>
-                    <li class="font-bold">Message from the Bride's Parent</li>
-                    <li class="font-bold">Message from Groom's Parent</li>
-                    <li class="font-bold">Bouquet Toss and Garter Toss</li>
-                    <li class="font-bold text-wedding-olive text-lg pt-2">Message from the Couple</li>
-                    <li class="font-bold text-wedding-dark">Closing Remarks</li>
-                </ul>
             </div>
         </div>
     </section>
@@ -585,15 +558,21 @@
                 </p>
                 <p class="font-serif text-lg italic text-wedding-olive mb-2">Contact Numbers:</p>
                 <div class="flex flex-col sm:flex-row justify-center items-center gap-4 sm:gap-8 mt-4 font-sans text-xl text-wedding-dark">
-                    <div class="flex items-center gap-2">
-                        <svg class="w-5 h-5 text-wedding-green" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
+                    <a href="tel:09673208466" class="flex items-center gap-2 hover:text-wedding-gold transition-colors group">
+                        <svg class="w-5 h-5 text-wedding-green group-hover:text-wedding-gold transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
                         09673208466
-                    </div>
+                    </a>
                     <div class="hidden sm:block text-wedding-light">|</div>
-                    <div class="flex items-center gap-2">
-                        <svg class="w-5 h-5 text-wedding-green" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
+                    <a href="tel:09274043228" class="flex items-center gap-2 hover:text-wedding-gold transition-colors group">
+                        <svg class="w-5 h-5 text-wedding-green group-hover:text-wedding-gold transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
                         09274043228
-                    </div>
+                    </a>
+                </div>
+                <div class="mt-8 flex justify-center">
+                    <a href="https://www.facebook.com/messages/e2ee/t/8065654176797204" target="_blank" rel="noopener noreferrer" class="font-sans text-xs tracking-widest uppercase flex items-center gap-2 border border-wedding-olive text-wedding-olive px-6 py-3 rounded-full hover:bg-wedding-olive hover:text-white transition-all shadow-sm">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.145 2 11.258c0 2.895 1.442 5.483 3.692 7.14v3.313c0 .356.398.558.683.353l3.226-2.296c.77.213 1.577.33 2.4.33 5.523 0 10-4.145 10-9.258C22 6.145 17.523 2 12 2zm1.09 12.816l-2.583-2.756-5.064 2.756 5.56-5.91 2.622 2.755 5.024-2.755-5.56 5.91z"/></svg>
+                        Message on Messenger
+                    </a>
                 </div>
             </div>
             
@@ -606,8 +585,41 @@
         <p>&copy; 2026 Marc & Princess. All Rights Reserved.</p>
     </footer>
 
+    <!-- Floating Background Music Player -->
+    <div class="fixed bottom-6 right-6 z-50">
+        <button id="music-toggle" class="w-14 h-14 bg-wedding-cream/90 backdrop-blur-sm rounded-full shadow-lg border border-wedding-gold/50 text-wedding-gold flex items-center justify-center hover:scale-110 transition-transform duration-300 focus:outline-none animate-pulse">
+            <!-- Play Icon -->
+            <svg id="icon-play" class="w-6 h-6 ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            <!-- Pause Icon (hidden by default) -->
+            <svg id="icon-pause" class="w-6 h-6 hidden" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+        </button>
+        <!-- Audio Element (using a beautiful royalty-free instrumental placeholder) -->
+        <audio id="bg-music" loop>
+            <source src="https://cdn.pixabay.com/download/audio/2022/11/22/audio_febc508520.mp3?filename=romantic-acoustic-guitar-125360.mp3" type="audio/mpeg">
+        </audio>
+    </div>
+
     <!-- JavaScript -->
     <script>
+        // Background Music Control
+        const musicToggle = document.getElementById('music-toggle');
+        const bgMusic = document.getElementById('bg-music');
+        const iconPlay = document.getElementById('icon-play');
+        const iconPause = document.getElementById('icon-pause');
+
+        musicToggle.addEventListener('click', () => {
+            if (bgMusic.paused) {
+                bgMusic.play();
+                iconPlay.classList.add('hidden');
+                iconPause.classList.remove('hidden');
+                musicToggle.classList.remove('animate-pulse');
+            } else {
+                bgMusic.pause();
+                iconPause.classList.add('hidden');
+                iconPlay.classList.remove('hidden');
+            }
+        });
+
         // 1. Mobile Menu Toggle
         const btn = document.getElementById('mobile-menu-btn');
         const menu = document.getElementById('mobile-menu');
