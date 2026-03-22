@@ -31,6 +31,8 @@
                         'float': 'float 6s ease-in-out infinite',
                         'float-delayed': 'float 6s ease-in-out 3s infinite',
                         'fade-in-up': 'fadeInUp 0.8s ease-out forwards',
+                        'fall': 'fall linear infinite',
+                        'spin-slow': 'spin 4s linear infinite',
                     },
                     keyframes: {
                         float: {
@@ -40,6 +42,12 @@
                         fadeInUp: {
                             '0%': { opacity: '0', transform: 'translateY(30px)' },
                             '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        fall: {
+                            '0%': { transform: 'translateY(-10vh) rotate(0deg) translateX(0)', opacity: '0' },
+                            '10%': { opacity: '0.6' },
+                            '80%': { opacity: '0.6' },
+                            '100%': { transform: 'translateY(110vh) rotate(360deg) translateX(50px)', opacity: '0' },
                         }
                     }
                 }
@@ -93,10 +101,52 @@
         .arch-container {
             border-radius: 200px 200px 0 0;
             box-shadow: 0 20px 40px rgba(46, 66, 44, 0.1);
+            background-size: cover;
+            background-position: center;
+        }
+        
+        /* Timeline Line */
+        .timeline-line::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            width: 2px;
+            background-color: rgba(143, 163, 130, 0.3);
+            transform: translateX(-50%);
+        }
+        @media (max-width: 768px) {
+            .timeline-line::before {
+                left: 24px;
+            }
+        }
+        
+        /* Falling Leaves Styling */
+        .leaf {
+            position: absolute;
+            top: -10%;
+            pointer-events: none;
+            z-index: 5;
+            width: 20px;
+            height: auto;
+        }
+        
+        /* Preloader */
+        #preloader {
+            transition: opacity 1s ease-out;
         }
     </style>
 </head>
 <body class="text-wedding-dark relative overflow-x-hidden">
+
+    <!-- Preloader -->
+    <div id="preloader" class="fixed inset-0 z-[100] bg-wedding-cream flex flex-col items-center justify-center">
+        <div class="animate-pulse flex flex-col items-center">
+            <div class="font-script text-7xl md:text-9xl text-wedding-gold mb-6">M & P</div>
+            <div class="font-sans text-xs md:text-sm tracking-[0.4em] text-wedding-green uppercase border-t border-wedding-gold pt-4">Welcome</div>
+        </div>
+    </div>
 
     <!-- Ambient Background Blobs -->
     <div class="blob-1 fixed"></div>
@@ -110,8 +160,9 @@
                 <div class="hidden md:flex space-x-8 font-sans text-sm tracking-widest font-medium uppercase text-wedding-green">
                     <a href="#home" class="hover:text-wedding-gold transition-colors">Home</a>
                     <a href="#details" class="hover:text-wedding-gold transition-colors">Details</a>
+                    <a href="#timeline" class="hover:text-wedding-gold transition-colors">Timeline</a>
                     <a href="#entourage" class="hover:text-wedding-gold transition-colors">Entourage</a>
-                    <a href="#attire" class="hover:text-wedding-gold transition-colors">Attire & Gifts</a>
+                    <a href="#attire" class="hover:text-wedding-gold transition-colors">Attire</a>
                     <a href="#rsvp" class="hover:text-wedding-gold transition-colors">RSVP</a>
                 </div>
                 <!-- Mobile menu button -->
@@ -128,14 +179,23 @@
         <div id="mobile-menu" class="hidden md:hidden bg-wedding-cream border-t border-wedding-light/20">
             <a href="#home" class="block py-3 px-4 text-sm uppercase tracking-widest text-center border-b border-wedding-light/10">Home</a>
             <a href="#details" class="block py-3 px-4 text-sm uppercase tracking-widest text-center border-b border-wedding-light/10">Details</a>
+            <a href="#timeline" class="block py-3 px-4 text-sm uppercase tracking-widest text-center border-b border-wedding-light/10">Timeline</a>
             <a href="#entourage" class="block py-3 px-4 text-sm uppercase tracking-widest text-center border-b border-wedding-light/10">Entourage</a>
-            <a href="#attire" class="block py-3 px-4 text-sm uppercase tracking-widest text-center border-b border-wedding-light/10">Attire & Gifts</a>
+            <a href="#attire" class="block py-3 px-4 text-sm uppercase tracking-widest text-center border-b border-wedding-light/10">Attire</a>
             <a href="#rsvp" class="block py-3 px-4 text-sm uppercase tracking-widest text-center">RSVP</a>
         </div>
     </nav>
 
     <!-- Hero Section -->
-    <section id="home" class="relative min-h-screen flex items-center justify-center pt-20 pb-12 px-4 z-10">
+    <section id="home" class="relative min-h-screen flex items-center justify-center pt-20 pb-12 px-4 z-10 overflow-hidden">
+        
+        <!-- Falling Leaves Animations -->
+        <svg class="leaf text-wedding-green animate-fall" style="left: 10%; animation-duration: 12s; animation-delay: 0s;" viewBox="0 0 24 24" fill="currentColor"><path d="M17 8C8 10 5.9 16.17 3.82 21.34L5.71 22L6.66 19.7C7.14 19.87 7.64 20 8 20C19 20 22 3 22 3C21 5 14 5.25 9 6.25C4 7.25 2 11.5 2 13.5C2 15.5 3.75 17.25 3.75 17.25C7 8 17 8 17 8Z"/></svg>
+        <svg class="leaf text-wedding-gold animate-fall" style="left: 30%; animation-duration: 15s; animation-delay: 4s; width: 16px;" viewBox="0 0 24 24" fill="currentColor"><path d="M17 8C8 10 5.9 16.17 3.82 21.34L5.71 22L6.66 19.7C7.14 19.87 7.64 20 8 20C19 20 22 3 22 3C21 5 14 5.25 9 6.25C4 7.25 2 11.5 2 13.5C2 15.5 3.75 17.25 3.75 17.25C7 8 17 8 17 8Z"/></svg>
+        <svg class="leaf text-wedding-olive animate-fall" style="left: 60%; animation-duration: 18s; animation-delay: 2s; width: 24px;" viewBox="0 0 24 24" fill="currentColor"><path d="M17 8C8 10 5.9 16.17 3.82 21.34L5.71 22L6.66 19.7C7.14 19.87 7.64 20 8 20C19 20 22 3 22 3C21 5 14 5.25 9 6.25C4 7.25 2 11.5 2 13.5C2 15.5 3.75 17.25 3.75 17.25C7 8 17 8 17 8Z"/></svg>
+        <svg class="leaf text-wedding-light animate-fall" style="left: 85%; animation-duration: 14s; animation-delay: 7s; width: 18px;" viewBox="0 0 24 24" fill="currentColor"><path d="M17 8C8 10 5.9 16.17 3.82 21.34L5.71 22L6.66 19.7C7.14 19.87 7.64 20 8 20C19 20 22 3 22 3C21 5 14 5.25 9 6.25C4 7.25 2 11.5 2 13.5C2 15.5 3.75 17.25 3.75 17.25C7 8 17 8 17 8Z"/></svg>
+        <svg class="leaf text-wedding-green animate-fall" style="left: 45%; animation-duration: 20s; animation-delay: 11s;" viewBox="0 0 24 24" fill="currentColor"><path d="M17 8C8 10 5.9 16.17 3.82 21.34L5.71 22L6.66 19.7C7.14 19.87 7.64 20 8 20C19 20 22 3 22 3C21 5 14 5.25 9 6.25C4 7.25 2 11.5 2 13.5C2 15.5 3.75 17.25 3.75 17.25C7 8 17 8 17 8Z"/></svg>
+
         <!-- Botanical Corner Accents (Top Left & Bottom Right) -->
         <svg class="absolute top-20 left-0 w-32 md:w-64 opacity-70 animate-float" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M10 50 Q40 20, 90 60 T150 20" stroke="#4A6145" stroke-width="2" fill="transparent"/>
@@ -150,9 +210,10 @@
             <path d="M20 70 Q40 40, 60 70 Q40 100, 20 70 Z" fill="#4A6145" opacity="0.5"/>
         </svg>
 
-        <div class="max-w-3xl w-full bg-wedding-dark text-wedding-cream arch-container p-10 md:p-16 text-center relative overflow-hidden">
-            <!-- Arch Background decor -->
-            <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at 50% 0%, #C8B072 0%, transparent 60%);"></div>
+        <div class="max-w-3xl w-full text-wedding-cream arch-container p-10 md:p-16 text-center relative overflow-hidden" style="background-image: url('https://images.unsplash.com/photo-1519741497674-611481863552?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80');">
+            <!-- Arch Background decor & Overlay -->
+            <div class="absolute inset-0 bg-wedding-dark/70 transition-opacity hover:bg-wedding-dark/60 duration-500"></div>
+            <div class="absolute inset-0 opacity-20" style="background-image: radial-gradient(circle at 50% 0%, #C8B072 0%, transparent 60%);"></div>
             
             <p class="font-script text-4xl md:text-5xl lg:text-6xl mb-4 mt-8 md:mt-16 text-wedding-cream z-10 relative">Save The Date</p>
             <p class="font-sans text-xs md:text-sm tracking-[0.2em] uppercase mb-8 md:mb-12 z-10 relative">You are invited to the wedding of</p>
@@ -217,7 +278,6 @@
                 
                 <!-- Ceremony -->
                 <div class="flex flex-col items-center p-6 bg-white/50 backdrop-blur rounded-lg border border-wedding-light/20 shadow-sm hover:shadow-md transition-shadow">
-                    <svg class="w-10 h-10 text-wedding-green mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
                     <h3 class="font-serif text-2xl mb-2 text-wedding-dark">The Ceremony</h3>
                     <p class="font-sans font-bold text-wedding-green mb-1 text-lg">1:30 PM</p>
                     <p class="font-sans text-sm tracking-widest uppercase mb-4 text-wedding-olive">Thursday, April 30, 2026</p>
@@ -231,7 +291,6 @@
                 
                 <!-- Reception -->
                 <div class="flex flex-col items-center p-6 bg-white/50 backdrop-blur rounded-lg border border-wedding-light/20 shadow-sm hover:shadow-md transition-shadow">
-                    <svg class="w-10 h-10 text-wedding-green mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2v10z"></path></svg>
                     <h3 class="font-serif text-2xl mb-2 text-wedding-dark">The Reception</h3>
                     <p class="font-sans font-bold text-wedding-green mb-1 text-lg">To Follow</p>
                     <p class="font-sans text-sm tracking-widest uppercase mb-4 text-wedding-olive">Dinner & Dancing</p>
@@ -241,6 +300,60 @@
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
                         View Map
                     </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Timeline Section -->
+    <section id="timeline" class="py-20 px-4 relative z-10 bg-wedding-cream/30">
+        <div class="max-w-4xl mx-auto reveal">
+            <h2 class="font-script text-5xl md:text-6xl text-wedding-dark text-center mb-16">Wedding Day Timeline</h2>
+            
+            <div class="relative timeline-line">
+                <!-- Event 1 -->
+                <div class="flex flex-col md:flex-row items-center justify-between mb-12 w-full group">
+                    <div class="order-1 md:w-5/12 hidden md:block"></div>
+                    <div class="order-1 md:w-2/12 flex justify-center z-10 absolute left-0 md:left-1/2 transform -translate-x-1/2 md:-translate-x-1/2">
+                        <div class="w-12 h-12 bg-wedding-cream border-4 border-wedding-gold group-hover:bg-wedding-gold group-hover:text-white transition-colors duration-300 rounded-full flex items-center justify-center shadow-md">
+                            <svg class="w-5 h-5 text-wedding-dark group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        </div>
+                    </div>
+                    <div class="order-1 w-full md:w-5/12 pl-16 md:pl-0 md:pr-12 md:text-right">
+                        <p class="font-sans font-bold text-wedding-green text-xl mb-1">1:30 PM</p>
+                        <h4 class="font-serif text-2xl text-wedding-dark mb-2">The Ceremony</h4>
+                        <p class="font-sans text-sm text-wedding-dark/70">Sto. Rosario Parish</p>
+                    </div>
+                </div>
+
+                <!-- Event 2 -->
+                <div class="flex flex-col md:flex-row items-center justify-between mb-12 w-full group">
+                    <div class="order-1 w-full md:w-5/12 pl-16 md:pl-0 md:pl-12 md:text-left">
+                        <p class="font-sans font-bold text-wedding-green text-xl mb-1">3:00 PM</p>
+                        <h4 class="font-serif text-2xl text-wedding-dark mb-2">Wedding Portraits</h4>
+                        <p class="font-sans text-sm text-wedding-dark/70">Family & Entourage Photos</p>
+                    </div>
+                    <div class="order-1 md:w-2/12 flex justify-center z-10 absolute left-0 md:left-1/2 transform -translate-x-1/2 md:-translate-x-1/2 mt-2 md:mt-0">
+                        <div class="w-12 h-12 bg-wedding-cream border-4 border-wedding-gold group-hover:bg-wedding-gold group-hover:text-white transition-colors duration-300 rounded-full flex items-center justify-center shadow-md">
+                            <svg class="w-5 h-5 text-wedding-dark group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                        </div>
+                    </div>
+                    <div class="order-1 md:w-5/12 hidden md:block"></div>
+                </div>
+
+                <!-- Event 3 -->
+                <div class="flex flex-col md:flex-row items-center justify-between mb-12 w-full group">
+                    <div class="order-1 md:w-5/12 hidden md:block"></div>
+                    <div class="order-1 md:w-2/12 flex justify-center z-10 absolute left-0 md:left-1/2 transform -translate-x-1/2 md:-translate-x-1/2 mt-2 md:mt-0">
+                        <div class="w-12 h-12 bg-wedding-cream border-4 border-wedding-gold group-hover:bg-wedding-gold group-hover:text-white transition-colors duration-300 rounded-full flex items-center justify-center shadow-md">
+                            <svg class="w-5 h-5 text-wedding-dark group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 15.546c-.523 0-1.046.151-1.5.454a2.704 2.704 0 01-3 0 2.704 2.704 0 00-3 0 2.704 2.704 0 01-3 0 2.704 2.704 0 00-3 0 2.704 2.704 0 01-3 0 2.701 2.701 0 00-1.5-.454M9 6v2m3-2v2m3-2v2M9 3h.01M12 3h.01M15 3h.01M21 21v-7a2 2 0 00-2-2H5a2 2 0 00-2 2v7h18zm-3-9v-2a2 2 0 00-2-2H8a2 2 0 00-2 2v2h12z"></path></svg>
+                        </div>
+                    </div>
+                    <div class="order-1 w-full md:w-5/12 pl-16 md:pl-0 md:pr-12 md:text-right">
+                        <p class="font-sans font-bold text-wedding-green text-xl mb-1">5:30 PM</p>
+                        <h4 class="font-serif text-2xl text-wedding-dark mb-2">Dinner & Reception</h4>
+                        <p class="font-sans text-sm text-wedding-dark/70">Sunn Hotel</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -485,7 +598,10 @@
                 <div class="grid md:grid-cols-2 gap-10">
                     <!-- Men -->
                     <div class="flex flex-col items-center md:items-end text-center md:text-right border-b md:border-b-0 md:border-r border-wedding-light/20 pb-8 md:pb-0 md:pr-8">
-                        <h3 class="font-serif text-2xl font-bold text-wedding-dark mb-4 uppercase">Men</h3>
+                        <div class="flex items-center gap-3 mb-4">
+                            <h3 class="font-serif text-2xl font-bold text-wedding-dark uppercase">Men</h3>
+                            <svg class="w-8 h-8 text-wedding-gold" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 21V7l5-4 5 4v14M7 7l5 5 5-5M12 3v18M8 11h8"/></svg>
+                        </div>
                         
                         <div class="flex justify-center md:justify-end gap-2 mb-6 flex-wrap">
                             <div class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-[#1A3B26] shadow-inner border border-black/10"></div>
@@ -502,7 +618,10 @@
                     
                     <!-- Women -->
                     <div class="flex flex-col items-center md:items-start text-center md:text-left pt-2 md:pt-0 md:pl-8">
-                        <h3 class="font-serif text-2xl font-bold text-wedding-dark mb-4 uppercase">Women</h3>
+                        <div class="flex items-center gap-3 mb-4">
+                            <svg class="w-8 h-8 text-wedding-gold md:order-first order-last" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9.5 3L7 8c0 1.5 2 3 5 3s5-1.5 5-3l-2.5-5h-5zM7 8c-2 4-3 13-3 13h16s-1-9-3-13M12 11v10"/></svg>
+                            <h3 class="font-serif text-2xl font-bold text-wedding-dark uppercase">Women</h3>
+                        </div>
 
                         <div class="flex justify-center md:justify-start gap-2 mb-6 flex-wrap">
                             <div class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-[#1A3B26] shadow-inner border border-black/10"></div>
@@ -585,39 +704,324 @@
         <p>&copy; 2026 Marc & Princess. All Rights Reserved.</p>
     </footer>
 
-    <!-- Floating Background Music Player -->
-    <div class="fixed bottom-6 right-6 z-50">
-        <button id="music-toggle" class="w-14 h-14 bg-wedding-cream/90 backdrop-blur-sm rounded-full shadow-lg border border-wedding-gold/50 text-wedding-gold flex items-center justify-center hover:scale-110 transition-transform duration-300 focus:outline-none animate-pulse">
-            <!-- Play Icon -->
-            <svg id="icon-play" class="w-6 h-6 ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-            <!-- Pause Icon (hidden by default) -->
-            <svg id="icon-pause" class="w-6 h-6 hidden" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+    <!-- Floating RSVP Reminder Toast -->
+    <div id="floating-toast" class="fixed top-24 md:top-24 left-1/2 md:left-auto md:right-6 transform -translate-x-1/2 md:translate-x-0 -translate-y-10 z-40 w-11/12 md:w-80 bg-wedding-cream/95 backdrop-blur-md border border-wedding-gold/50 rounded-2xl shadow-2xl p-5 opacity-0 pointer-events-none transition-all duration-700 flex flex-col gap-2">
+        <button id="close-toast" class="absolute top-4 right-4 text-wedding-dark/40 hover:text-wedding-dark transition-colors pointer-events-auto">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
         </button>
-        <!-- Audio Element (using a beautiful royalty-free instrumental placeholder) -->
-        <audio id="bg-music" loop>
-            <source src="https://cdn.pixabay.com/download/audio/2022/11/22/audio_febc508520.mp3?filename=romantic-acoustic-guitar-125360.mp3" type="audio/mpeg">
-        </audio>
+        <div class="flex items-center gap-3 mb-1">
+            <div class="w-8 h-8 rounded-full bg-wedding-gold/20 flex items-center justify-center text-wedding-gold">
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+            </div>
+            <h4 class="font-serif text-wedding-dark text-base font-bold">Gentle Reminder</h4>
+        </div>
+        <p class="font-sans text-xs text-wedding-dark/80 leading-relaxed pl-11">
+            Please don't forget to <a id="toast-rsvp-link" href="#rsvp" class="font-bold text-wedding-green hover:text-wedding-gold transition-colors underline pointer-events-auto">RSVP</a> on or before April 1, 2026.
+        </p>
     </div>
+
+    <!-- Floating Message Container -->
+    <div class="fixed bottom-6 right-6 z-40 flex flex-col items-end gap-3">
+        
+        <!-- Music Toggle -->
+        <button id="music-btn" class="w-12 h-12 bg-wedding-cream/90 backdrop-blur-sm rounded-full shadow-lg border border-wedding-gold/50 text-wedding-gold flex items-center justify-center hover:scale-110 transition-all duration-300 focus:outline-none pointer-events-auto shrink-0 group">
+            <svg id="music-icon-play" class="w-5 h-5 absolute" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            <svg id="music-icon-pause" class="w-5 h-5 absolute opacity-0 animate-spin-slow" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/></svg>
+        </button>
+        <audio id="bg-music" loop>
+            <source src="https://cdn.pixabay.com/download/audio/2022/01/18/audio_d0a13f69d2.mp3?filename=acoustic-guitar-wedding-115390.mp3" type="audio/mpeg">
+        </audio>
+
+        <div class="flex items-center justify-end">
+            <!-- Message Tooltip -->
+            <div id="message-tooltip" class="mr-4 relative bg-wedding-cream text-wedding-dark text-xs font-sans tracking-wider px-4 py-3 rounded-xl shadow-lg border border-wedding-gold/30 opacity-0 translate-x-4 transition-all duration-500 pointer-events-none whitespace-nowrap hidden sm:flex items-center gap-2">
+                Leave us a wish! 🤍
+                <div class="absolute top-1/2 -right-2 w-4 h-4 bg-wedding-cream border-t border-r border-wedding-gold/30 transform -translate-y-1/2 rotate-45"></div>
+            </div>
+            <!-- Message Button -->
+            <button id="message-toggle" class="w-14 h-14 bg-wedding-dark/90 backdrop-blur-sm rounded-full shadow-lg border border-wedding-gold/50 text-wedding-gold flex items-center justify-center hover:scale-110 transition-transform duration-300 focus:outline-none animate-bounce pointer-events-auto shrink-0">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path></svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- Live Guestbook Floating Toast -->
+    <div id="live-message-toast" class="fixed bottom-6 left-4 right-20 md:right-auto md:left-6 z-30 max-w-sm w-auto md:w-80 transform translate-y-32 opacity-0 transition-all duration-700 pointer-events-none">
+        <!-- Floating Animated Card -->
+        <div class="bg-wedding-cream/95 backdrop-blur-md rounded-2xl shadow-lg border border-wedding-gold/40 p-4 animate-float flex flex-col gap-2 pointer-events-auto">
+            <div class="flex items-start gap-3">
+                <div class="w-8 h-8 rounded-full bg-wedding-gold/20 flex items-center justify-center shrink-0 mt-1 text-wedding-gold">
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                </div>
+                <div class="pr-5">
+                    <p id="live-message-name" class="font-serif font-bold text-wedding-dark text-sm leading-tight"></p>
+                    <p id="live-message-text" class="font-sans text-xs text-wedding-dark/80 italic mt-1 line-clamp-3 leading-relaxed"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Message Modal Form -->
+    <div id="message-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden items-center justify-center p-4 opacity-0 transition-opacity duration-300">
+        <div class="bg-wedding-cream rounded-2xl shadow-xl w-full max-w-md overflow-hidden transform scale-95 transition-transform duration-300" id="message-modal-content">
+            <div class="bg-wedding-dark p-4 flex justify-between items-center text-wedding-gold">
+                <h3 class="font-serif text-xl">Leave a Message</h3>
+                <button id="close-message" class="hover:text-white transition-colors focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            <div class="p-6">
+                <form id="guest-message-form" class="space-y-4">
+                    <div>
+                        <label class="block font-sans text-xs tracking-widest uppercase text-wedding-dark mb-1" for="guest-name">Name</label>
+                        <input type="text" id="guest-name" name="Name" required class="w-full bg-white border border-wedding-light/30 rounded-lg px-4 py-2 focus:outline-none focus:border-wedding-green focus:ring-1 focus:ring-wedding-green transition-colors font-sans text-sm">
+                    </div>
+                    <div>
+                        <label class="block font-sans text-xs tracking-widest uppercase text-wedding-dark mb-1" for="guest-msg">Message</label>
+                        <textarea id="guest-msg" name="Message" required rows="4" class="w-full bg-white border border-wedding-light/30 rounded-lg px-4 py-2 focus:outline-none focus:border-wedding-green focus:ring-1 focus:ring-wedding-green transition-colors font-sans text-sm resize-none"></textarea>
+                    </div>
+                    <button type="submit" id="submit-message" class="w-full bg-wedding-green text-white font-sans text-xs tracking-widest uppercase py-3 rounded-lg hover:bg-wedding-dark transition-colors flex justify-center items-center">
+                        <span>Send Message</span>
+                        <svg id="submit-spinner" class="hidden animate-spin ml-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                    </button>
+                </form>
+                
+                <!-- Success State -->
+                <div id="message-success" class="hidden text-center py-6">
+                    <svg class="w-16 h-16 text-wedding-green mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <p class="font-serif text-2xl text-wedding-dark mb-1">Thank you!</p>
+                    <p class="font-sans text-sm text-wedding-dark/70">Your message has been received.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scroll to Top Button -->
+    <button id="scroll-to-top" class="fixed bottom-24 right-6 z-40 w-12 h-12 bg-wedding-dark/80 backdrop-blur-sm rounded-full shadow-lg border border-wedding-light/30 text-wedding-cream flex items-center justify-center opacity-0 translate-y-10 transition-all duration-300 focus:outline-none hover:bg-wedding-dark">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path></svg>
+    </button>
 
     <!-- JavaScript -->
     <script>
-        // Background Music Control
-        const musicToggle = document.getElementById('music-toggle');
-        const bgMusic = document.getElementById('bg-music');
-        const iconPlay = document.getElementById('icon-play');
-        const iconPause = document.getElementById('icon-pause');
+        // Preloader Logic & Floating Elements
+        window.addEventListener('load', () => {
+            const preloader = document.getElementById('preloader');
+            setTimeout(() => {
+                preloader.style.opacity = '0';
+                setTimeout(() => {
+                    preloader.style.display = 'none';
+                }, 1000);
+            }, 1500);
 
-        musicToggle.addEventListener('click', () => {
-            if (bgMusic.paused) {
-                bgMusic.play();
-                iconPlay.classList.add('hidden');
-                iconPause.classList.remove('hidden');
-                musicToggle.classList.remove('animate-pulse');
-            } else {
-                bgMusic.pause();
-                iconPause.classList.add('hidden');
-                iconPlay.classList.remove('hidden');
+            // Show Toast Reminder after 6 seconds
+            setTimeout(() => {
+                const toast = document.getElementById('floating-toast');
+                if(toast) {
+                    toast.classList.remove('opacity-0', '-translate-y-10', 'pointer-events-none');
+                }
+            }, 6000);
+
+            // Show Message Tooltip after 4 seconds
+            setTimeout(() => {
+                const tooltip = document.getElementById('message-tooltip');
+                if (tooltip) {
+                    tooltip.classList.remove('opacity-0', 'translate-x-4');
+                    // Automatically hide tooltip after 8 seconds so it isn't distracting
+                    setTimeout(() => {
+                        tooltip.classList.add('opacity-0', 'translate-x-4');
+                    }, 8000);
+                }
+            }, 4000);
+        });
+
+        // Toast Dismissal Handlers
+        const closeToast = document.getElementById('close-toast');
+        const toastRsvpLink = document.getElementById('toast-rsvp-link');
+        const floatingToast = document.getElementById('floating-toast');
+        
+        if(closeToast) {
+            closeToast.addEventListener('click', () => {
+                floatingToast.classList.add('opacity-0', '-translate-y-10', 'pointer-events-none');
+            });
+        }
+        if(toastRsvpLink) {
+            toastRsvpLink.addEventListener('click', () => {
+                floatingToast.classList.add('opacity-0', 'pointer-events-none');
+            });
+        }
+
+        // Message Modal & Form Submission Control
+        const messageToggle = document.getElementById('message-toggle');
+        const messageModal = document.getElementById('message-modal');
+        const messageModalContent = document.getElementById('message-modal-content');
+        const closeMessage = document.getElementById('close-message');
+        const messageForm = document.getElementById('guest-message-form');
+        const messageSuccess = document.getElementById('message-success');
+        const submitSpinner = document.getElementById('submit-spinner');
+        const submitBtnText = document.querySelector('#submit-message span');
+
+        // Google Sheets Live Messages Fetcher
+        const sheetId = '19Yb0Bu6e8dZTwetXX51UXnL_daymaeHNHln9KB7l7nk';
+        const queryUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&tq=SELECT B, C`; 
+        let guestMessages = [];
+        let currentMessageIndex = 0;
+        let isHoveringMessage = false;
+        let messageTimeout;
+        let messageCycleInterval;
+
+        function fetchLiveMessages() {
+            fetch(queryUrl)
+                .then(res => res.text())
+                .then(text => {
+                    const jsonString = text.match(/google\.visualization\.Query\.setResponse\(([\s\S\w]+)\);/)[1];
+                    const data = JSON.parse(jsonString);
+                    
+                    if (data.table && data.table.rows) {
+                        guestMessages = data.table.rows.map(row => ({
+                            name: row.c[0] ? row.c[0].v : 'Guest',
+                            msg: row.c[1] ? row.c[1].v : ''
+                        })).filter(m => m.msg !== '' && m.name !== 'Name');
+                        
+                        guestMessages.reverse();
+                    }
+                    startMessageCycle();
+                })
+                .catch(err => {
+                    console.log("Live messages could not be loaded. Ensure the Sheet is set to 'Anyone with link can view'.", err);
+                    startMessageCycle();
+                });
+        }
+
+        function startMessageCycle() {
+            const toast = document.getElementById('live-message-toast');
+            const nameEl = document.getElementById('live-message-name');
+            const textEl = document.getElementById('live-message-text');
+
+            if (guestMessages.length === 0) {
+                guestMessages = [{
+                    name: "Marc & Princess",
+                    msg: "Be the first to leave a wish for us! 🤍"
+                }];
             }
+
+            toast.addEventListener('mouseenter', () => isHoveringMessage = true);
+            toast.addEventListener('mouseleave', () => isHoveringMessage = false);
+
+            function scheduleHide() {
+                clearTimeout(messageTimeout);
+                messageTimeout = setTimeout(() => {
+                    if (isHoveringMessage) {
+                        scheduleHide();
+                    } else {
+                        toast.classList.add('translate-y-32', 'opacity-0');
+                    }
+                }, 7000);
+            }
+
+            function displayNextMessage() {
+                if (guestMessages.length === 0) return;
+                
+                const m = guestMessages[currentMessageIndex];
+                nameEl.innerText = m.name;
+                textEl.innerText = `"${m.msg}"`;
+                
+                toast.classList.remove('translate-y-32', 'opacity-0');
+                
+                currentMessageIndex = (currentMessageIndex + 1) % guestMessages.length;
+                scheduleHide();
+            }
+
+            setTimeout(() => {
+                displayNextMessage();
+                messageCycleInterval = setInterval(() => {
+                    if (toast.classList.contains('opacity-0')) {
+                        displayNextMessage();
+                    }
+                }, 12000);
+            }, 8000);
+        }
+
+        fetchLiveMessages();
+
+        function openModal() {
+            messageModal.classList.remove('hidden');
+            messageModal.classList.add('flex');
+            messageToggle.classList.remove('animate-bounce');
+            setTimeout(() => {
+                messageModal.classList.remove('opacity-0');
+                messageModalContent.classList.remove('scale-95');
+            }, 10);
+        }
+
+        function closeModal() {
+            messageModal.classList.add('opacity-0');
+            messageModalContent.classList.add('scale-95');
+            setTimeout(() => {
+                messageModal.classList.add('hidden');
+                messageModal.classList.remove('flex');
+                messageForm.reset();
+                messageForm.classList.remove('hidden');
+                messageSuccess.classList.add('hidden');
+            }, 300);
+        }
+
+        messageToggle.addEventListener('click', openModal);
+        closeMessage.addEventListener('click', closeModal);
+        messageModal.addEventListener('click', (e) => {
+            if (e.target === messageModal) closeModal();
+        });
+
+        messageForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            submitSpinner.classList.remove('hidden');
+            submitBtnText.innerText = 'Sending...';
+
+            const formData = new FormData(messageForm);
+            const scriptURL = 'https://script.google.com/macros/s/AKfycbwc1mp69iWQXChrm0dT0X4Dcm2WpEk_87yPInx_R4pgF7lAxVuSyQYVPhfzo9tYHDE7yQ/exec'; 
+
+            fetch(scriptURL, { 
+                method: 'POST', 
+                body: formData,
+                mode: 'no-cors' 
+            })
+                .then(response => {
+                    submitSpinner.classList.add('hidden');
+                    submitBtnText.innerText = 'Send Message';
+                    messageForm.classList.add('hidden');
+                    messageSuccess.classList.remove('hidden');
+
+                    if (guestMessages.length === 1 && guestMessages[0].name === "Marc & Princess") {
+                        guestMessages = [];
+                    }
+
+                    guestMessages.unshift({
+                        name: formData.get('Name'),
+                        msg: formData.get('Message')
+                    });
+                    currentMessageIndex = 0;
+                })
+                .catch(error => {
+                    console.error('Error!', error.message);
+                    submitSpinner.classList.add('hidden');
+                    submitBtnText.innerText = 'Send Message';
+                    alert('There was an issue sending your message. Please try again.');
+                });
+        });
+
+        // Scroll to Top Control
+        const scrollTopBtn = document.getElementById('scroll-to-top');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 500) {
+                scrollTopBtn.classList.remove('opacity-0', 'translate-y-10');
+                scrollTopBtn.classList.add('opacity-100', 'translate-y-0');
+            } else {
+                scrollTopBtn.classList.add('opacity-0', 'translate-y-10');
+                scrollTopBtn.classList.remove('opacity-100', 'translate-y-0');
+            }
+        });
+
+        scrollTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         });
 
         // 1. Mobile Menu Toggle
@@ -628,7 +1032,6 @@
             menu.classList.toggle('hidden');
         });
 
-        // Close mobile menu on link click
         document.querySelectorAll('#mobile-menu a').forEach(link => {
             link.addEventListener('click', () => {
                 menu.classList.add('hidden');
@@ -647,33 +1050,30 @@
             }
         });
 
-        // 3. Countdown Timer to April 30, 2026, 1:30 PM
+        // 3. Countdown Timer
         const countDownDate = new Date("April 30, 2026 13:30:00").getTime();
 
         const x = setInterval(function() {
             const now = new Date().getTime();
             const distance = countDownDate - now;
 
-            // Time calculations
             const days = Math.floor(distance / (1000 * 60 * 60 * 24));
             const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-            // Display results
             document.getElementById("days").innerHTML = days < 10 ? "0" + days : days;
             document.getElementById("hours").innerHTML = hours < 10 ? "0" + hours : hours;
             document.getElementById("minutes").innerHTML = minutes < 10 ? "0" + minutes : minutes;
             document.getElementById("seconds").innerHTML = seconds < 10 ? "0" + seconds : seconds;
 
-            // If countdown is finished
             if (distance < 0) {
                 clearInterval(x);
                 document.getElementById("countdown-timer").innerHTML = "<div class='text-2xl md:text-4xl font-script text-wedding-gold'>The day is finally here!</div>";
             }
         }, 1000);
 
-        // 4. Scroll Reveal Animation using Intersection Observer
+        // 4. Scroll Reveal Animation
         function reveal() {
             var reveals = document.querySelectorAll(".reveal");
             for (var i = 0; i < reveals.length; i++) {
@@ -687,10 +1087,33 @@
             }
         }
         window.addEventListener("scroll", reveal);
-        // Trigger once on load
         reveal();
 
-        // 5. Toggle Principal Sponsors List
+        // Stagger list items in entourage
+        document.querySelectorAll('#entourage ul').forEach(ul => {
+            Array.from(ul.children).forEach((li, index) => {
+                li.style.opacity = '0';
+                li.style.transform = 'translateY(15px)';
+                li.style.transition = `all 0.5s ease-out ${index * 0.1}s`;
+            });
+        });
+        
+        const entourageObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if(entry.isIntersecting) {
+                    Array.from(entry.target.children).forEach(li => {
+                        li.style.opacity = '1';
+                        li.style.transform = 'translateY(0)';
+                    });
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('#entourage ul').forEach(ul => {
+            entourageObserver.observe(ul);
+        });
+
+        // 5. Toggle Sponsors
         const toggleBtn = document.getElementById('toggle-sponsors');
         const sponsorsList = document.getElementById('principal-sponsors-list');
 
@@ -702,6 +1125,26 @@
                 sponsorsList.classList.add('hidden');
                 toggleBtn.innerText = 'View Principal Sponsors';
             }
+        });
+
+        // 6. Background Music Toggle
+        const musicBtn = document.getElementById('music-btn');
+        const bgMusic = document.getElementById('bg-music');
+        const iconPlay = document.getElementById('music-icon-play');
+        const iconPause = document.getElementById('music-icon-pause');
+        let isPlaying = false;
+
+        musicBtn.addEventListener('click', () => {
+            if (isPlaying) {
+                bgMusic.pause();
+                iconPlay.classList.remove('opacity-0');
+                iconPause.classList.add('opacity-0');
+            } else {
+                bgMusic.play().catch(e => console.log("Audio play failed:", e));
+                iconPlay.classList.add('opacity-0');
+                iconPause.classList.remove('opacity-0');
+            }
+            isPlaying = !isPlaying;
         });
     </script>
 </body>
