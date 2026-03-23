@@ -33,6 +33,7 @@
                         'fade-in-up': 'fadeInUp 0.8s ease-out forwards',
                         'fall': 'fall linear infinite',
                         'spin-slow': 'spin 4s linear infinite',
+                        'float-particle': 'floatParticle 6s infinite ease-in-out',
                     },
                     keyframes: {
                         float: {
@@ -48,6 +49,11 @@
                             '10%': { opacity: '0.6' },
                             '80%': { opacity: '0.6' },
                             '100%': { transform: 'translateY(110vh) rotate(360deg) translateX(50px)', opacity: '0' },
+                        },
+                        floatParticle: {
+                            '0%': { transform: 'translateY(0) scale(0)', opacity: '0' },
+                            '50%': { opacity: '0.6', transform: 'translateY(-15vh) scale(1.5)' },
+                            '100%': { transform: 'translateY(-30vh) scale(0)', opacity: '0' },
                         }
                     }
                 }
@@ -109,6 +115,18 @@
         .perspective-1000 {
             perspective: 1000px;
         }
+
+        /* Paper Texture Overlay */
+        .paper-texture {
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.08'/%3E%3C/svg%3E");
+        }
+
+        /* Particles */
+        .particle {
+            position: absolute;
+            background: radial-gradient(circle, #C8B072 0%, transparent 70%);
+            border-radius: 50%;
+        }
         
         /* Timeline Line */
         .timeline-line::before {
@@ -147,14 +165,32 @@
 
     <!-- Envelope Preloader -->
     <div id="envelope-wrapper" class="fixed inset-0 z-[100] bg-wedding-dark/95 backdrop-blur-md flex flex-col items-center justify-center transition-opacity duration-1000">
-        <div class="perspective-1000 w-full flex justify-center">
-            <div id="envelope" class="relative w-[300px] h-[200px] md:w-[400px] md:h-[260px] bg-[#E8E4D9] shadow-2xl cursor-pointer transition-transform duration-500 hover:-translate-y-2 group [transform-style:preserve-3d] rounded-sm">
+        
+        <!-- Magical Particles -->
+        <div class="absolute inset-0 overflow-hidden pointer-events-none z-0">
+            <div class="particle w-2 h-2 left-[15%] top-[80%] animate-float-particle" style="animation-delay: 0s;"></div>
+            <div class="particle w-3 h-3 left-[35%] top-[70%] animate-float-particle" style="animation-delay: 2s;"></div>
+            <div class="particle w-1.5 h-1.5 left-[50%] top-[90%] animate-float-particle" style="animation-delay: 4s;"></div>
+            <div class="particle w-2 h-2 left-[65%] top-[60%] animate-float-particle" style="animation-delay: 1s;"></div>
+            <div class="particle w-3 h-3 left-[85%] top-[85%] animate-float-particle" style="animation-delay: 3s;"></div>
+            <div class="particle w-2 h-2 left-[25%] top-[40%] animate-float-particle" style="animation-delay: 5s;"></div>
+            <div class="particle w-1.5 h-1.5 left-[75%] top-[30%] animate-float-particle" style="animation-delay: 2.5s;"></div>
+            <div class="particle w-3 h-3 left-[80%] top-[95%] animate-float-particle" style="animation-delay: 0.5s;"></div>
+        </div>
+
+        <div class="perspective-1000 w-full flex justify-center animate-float z-10">
+            <div id="envelope" class="relative w-[300px] h-[200px] md:w-[400px] md:h-[260px] bg-[#E8E4D9] shadow-2xl cursor-pointer transition-transform duration-500 hover:scale-105 group [transform-style:preserve-3d] rounded-sm">
                 
+                <!-- Texture Overlay for Envelope Body -->
+                <div class="absolute inset-0 pointer-events-none z-[45] mix-blend-multiply opacity-60 paper-texture rounded-sm"></div>
+
                 <!-- Inner card -->
                 <div class="absolute inset-0 flex items-end justify-center pb-4 z-10">
-                    <div id="inner-card" class="w-[85%] h-[95%] bg-white border border-wedding-gold/30 shadow-sm flex flex-col items-center justify-start pt-6 md:pt-10 transition-transform duration-1000">
-                        <span class="font-script text-wedding-gold text-3xl md:text-4xl block mb-2">M & P</span>
-                        <span class="font-sans text-[8px] md:text-xs tracking-[0.3em] uppercase text-wedding-dark">You're Invited</span>
+                    <div id="inner-card" class="w-[85%] h-[95%] bg-white border border-wedding-gold/30 shadow-sm flex flex-col items-center justify-start pt-6 md:pt-10 transition-transform duration-1000 relative">
+                        <!-- Texture Overlay for Card -->
+                        <div class="absolute inset-0 pointer-events-none mix-blend-multiply opacity-40 paper-texture"></div>
+                        <span class="font-script text-wedding-gold text-3xl md:text-4xl block mb-2 relative z-10 drop-shadow-sm">M & P</span>
+                        <span class="font-sans text-[8px] md:text-xs tracking-[0.3em] uppercase text-wedding-dark relative z-10">You're Invited</span>
                     </div>
                 </div>
                 
@@ -165,6 +201,11 @@
                 <!-- Bottom Flap -->
                 <div class="absolute bottom-0 left-0 w-0 h-0 border-x-[150px] md:border-x-[200px] border-b-[110px] md:border-b-[140px] border-x-transparent border-b-[#DFDBC8] z-30 pointer-events-none drop-shadow-md"></div>
                 
+                <!-- Address Overlay -->
+                <div class="absolute bottom-5 md:bottom-8 left-0 w-full text-center z-[46] pointer-events-none transition-opacity duration-300" id="envelope-address">
+                    <p class="font-script text-wedding-dark/60 text-xl md:text-2xl transform -rotate-2">To our beloved family & friends</p>
+                </div>
+
                 <!-- Top Flap -->
                 <div id="top-flap" class="absolute top-0 left-0 w-0 h-0 border-x-[150px] md:border-x-[200px] border-t-[105px] md:border-t-[135px] border-x-transparent border-t-[#DCD8C5] z-40 origin-top transform transition-all duration-700 ease-in-out pointer-events-none drop-shadow-md"></div>
                 
@@ -177,8 +218,10 @@
             </div>
         </div>
         
-        <div id="envelope-text" class="mt-16 font-sans text-xs md:text-sm tracking-[0.4em] text-wedding-gold uppercase animate-pulse transition-opacity duration-300">
-            Tap to open
+        <!-- Text Hints -->
+        <div id="envelope-text" class="mt-16 flex flex-col items-center gap-3 transition-opacity duration-300 z-10">
+            <span class="font-sans text-xs md:text-sm tracking-[0.4em] text-wedding-gold uppercase animate-pulse">Tap to open</span>
+            <span class="font-sans text-[9px] md:text-xs tracking-widest text-wedding-cream/60 uppercase text-center px-4">Please turn on your volume for the best experience</span>
         </div>
     </div>
 
@@ -845,6 +888,7 @@
         const topFlap = document.getElementById('top-flap');
         const waxSeal = document.getElementById('wax-seal');
         const envelopeText = document.getElementById('envelope-text');
+        const envelopeAddress = document.getElementById('envelope-address');
         const innerCard = document.getElementById('inner-card');
         const bodyContainer = document.getElementById('body-container');
         
@@ -856,6 +900,7 @@
 
             // 1. Hide text prompt and break seal
             envelopeText.style.opacity = '0';
+            if (envelopeAddress) envelopeAddress.style.opacity = '0';
             waxSeal.style.transform = 'translate(-50%, -50%) scale(0)';
             waxSeal.style.opacity = '0';
 
