@@ -190,7 +190,7 @@
                         <!-- Texture Overlay for Card -->
                         <div class="absolute inset-0 pointer-events-none mix-blend-multiply opacity-40 paper-texture"></div>
                         <span class="font-script text-wedding-gold text-3xl md:text-4xl block mb-2 relative z-10 drop-shadow-sm">M & P</span>
-                        <span class="font-sans text-[8px] md:text-xs tracking-[0.3em] uppercase text-wedding-dark relative z-10">You're Invited</span>
+                        <span id="inner-card-text" class="font-sans text-[8px] md:text-xs tracking-[0.3em] uppercase text-wedding-dark relative z-10">You're Invited</span>
                     </div>
                 </div>
                 
@@ -203,7 +203,7 @@
                 
                 <!-- Address Overlay -->
                 <div class="absolute bottom-5 md:bottom-8 left-0 w-full text-center z-[46] pointer-events-none transition-opacity duration-300" id="envelope-address">
-                    <p class="font-script text-wedding-dark/60 text-xl md:text-2xl transform -rotate-2">To our beloved family & friends</p>
+                    <p id="envelope-address-text" class="font-script text-wedding-dark/60 text-xl md:text-2xl transform -rotate-2">To our beloved family & friends</p>
                 </div>
 
                 <!-- Top Flap -->
@@ -292,8 +292,8 @@
             <div class="absolute inset-0 bg-wedding-dark/70 transition-opacity hover:bg-wedding-dark/60 duration-500"></div>
             <div class="absolute inset-0 opacity-20" style="background-image: radial-gradient(circle at 50% 0%, #C8B072 0%, transparent 60%);"></div>
             
-            <p class="font-script text-4xl md:text-5xl lg:text-6xl mb-4 mt-8 md:mt-16 text-wedding-cream z-10 relative drop-shadow-lg">Save The Date</p>
-            <p class="font-sans text-xs md:text-sm tracking-[0.2em] uppercase mb-8 md:mb-12 z-10 relative drop-shadow-md">You are invited to the wedding of</p>
+            <p id="hero-subtitle" class="font-script text-4xl md:text-5xl lg:text-6xl mb-4 mt-8 md:mt-16 text-wedding-cream z-10 relative drop-shadow-lg">Save The Date</p>
+            <p id="hero-text" class="font-sans text-xs md:text-sm tracking-[0.2em] uppercase mb-8 md:mb-12 z-10 relative drop-shadow-md">You are invited to the wedding of</p>
             
             <h1 class="font-serif text-5xl md:text-7xl lg:text-8xl mb-2 z-10 relative drop-shadow-2xl">Marc</h1>
             <p class="font-script text-4xl md:text-6xl text-wedding-gold my-2 z-10 relative drop-shadow-xl">and</p>
@@ -884,6 +884,24 @@
 
     <!-- JavaScript -->
     <script>
+        // Post-Wedding Update Logic
+        const weddingDateMs = new Date("April 30, 2026 13:30:00").getTime();
+        const currentDateMs = new Date().getTime();
+        
+        if (currentDateMs > weddingDateMs) {
+            const innerCardText = document.getElementById('inner-card-text');
+            if (innerCardText) innerCardText.innerText = "Thank You";
+            
+            const envelopeAddressText = document.getElementById('envelope-address-text');
+            if (envelopeAddressText) envelopeAddressText.innerText = "Thank you for celebrating with us";
+
+            const heroSubtitle = document.getElementById('hero-subtitle');
+            if (heroSubtitle) heroSubtitle.innerText = "Just Married";
+
+            const heroText = document.getElementById('hero-text');
+            if (heroText) heroText.innerText = "Thank you for being part of our special day";
+        }
+
         // Interactive Envelope & Preloader Logic
         const envelopeWrapper = document.getElementById('envelope-wrapper');
         const envelope = document.getElementById('envelope');
@@ -951,7 +969,8 @@
             // Show Toast Reminder after 5 seconds
             setTimeout(() => {
                 const toast = document.getElementById('floating-toast');
-                if(toast) {
+                // Don't show RSVP reminder if the wedding already passed
+                if(toast && currentDateMs <= weddingDateMs) {
                     toast.classList.remove('opacity-0', '-translate-y-10', 'pointer-events-none');
                 }
             }, 5000);
