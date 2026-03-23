@@ -105,6 +105,11 @@
             background-position: center;
         }
         
+        /* Perspective for Envelope 3D Effect */
+        .perspective-1000 {
+            perspective: 1000px;
+        }
+        
         /* Timeline Line */
         .timeline-line::before {
             content: '';
@@ -138,13 +143,42 @@
         }
     </style>
 </head>
-<body class="text-wedding-dark relative overflow-x-hidden">
+<body class="text-wedding-dark relative overflow-hidden h-screen" id="body-container">
 
-    <!-- Preloader -->
-    <div id="preloader" class="fixed inset-0 z-[100] bg-wedding-cream flex flex-col items-center justify-center">
-        <div class="animate-pulse flex flex-col items-center">
-            <div class="font-script text-5xl md:text-9xl text-wedding-gold mb-6">M & P</div>
-            <div class="font-sans text-xs md:text-sm tracking-[0.4em] text-wedding-green uppercase border-t border-wedding-gold pt-4">Welcome</div>
+    <!-- Envelope Preloader -->
+    <div id="envelope-wrapper" class="fixed inset-0 z-[100] bg-wedding-dark/95 backdrop-blur-md flex flex-col items-center justify-center transition-opacity duration-1000">
+        <div class="perspective-1000 w-full flex justify-center">
+            <div id="envelope" class="relative w-[300px] h-[200px] md:w-[400px] md:h-[260px] bg-[#E8E4D9] shadow-2xl cursor-pointer transition-transform duration-500 hover:-translate-y-2 group [transform-style:preserve-3d] rounded-sm">
+                
+                <!-- Inner card -->
+                <div class="absolute inset-0 flex items-end justify-center pb-4 z-10">
+                    <div id="inner-card" class="w-[85%] h-[95%] bg-white border border-wedding-gold/30 shadow-sm flex flex-col items-center justify-start pt-6 md:pt-10 transition-transform duration-1000">
+                        <span class="font-script text-wedding-gold text-3xl md:text-4xl block mb-2">M & P</span>
+                        <span class="font-sans text-[8px] md:text-xs tracking-[0.3em] uppercase text-wedding-dark">You're Invited</span>
+                    </div>
+                </div>
+                
+                <!-- Left Flap -->
+                <div class="absolute top-0 left-0 w-0 h-0 border-y-[100px] md:border-y-[130px] border-l-[150px] md:border-l-[200px] border-y-transparent border-l-[#E2DECE] z-20 pointer-events-none drop-shadow-sm"></div>
+                <!-- Right Flap -->
+                <div class="absolute top-0 right-0 w-0 h-0 border-y-[100px] md:border-y-[130px] border-r-[150px] md:border-r-[200px] border-y-transparent border-r-[#E2DECE] z-20 pointer-events-none drop-shadow-sm"></div>
+                <!-- Bottom Flap -->
+                <div class="absolute bottom-0 left-0 w-0 h-0 border-x-[150px] md:border-x-[200px] border-b-[110px] md:border-b-[140px] border-x-transparent border-b-[#DFDBC8] z-30 pointer-events-none drop-shadow-md"></div>
+                
+                <!-- Top Flap -->
+                <div id="top-flap" class="absolute top-0 left-0 w-0 h-0 border-x-[150px] md:border-x-[200px] border-t-[105px] md:border-t-[135px] border-x-transparent border-t-[#DCD8C5] z-40 origin-top transform transition-all duration-700 ease-in-out pointer-events-none drop-shadow-md"></div>
+                
+                <!-- Wax Seal -->
+                <div id="wax-seal" class="absolute top-[105px] md:top-[135px] left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-16 h-16 md:w-20 md:h-20 bg-wedding-gold rounded-full z-50 flex items-center justify-center shadow-xl transition-all duration-500 group-hover:scale-110 pointer-events-none">
+                    <div class="w-14 h-14 md:w-18 md:h-18 rounded-full border border-white/40 flex items-center justify-center">
+                        <span class="font-script text-white text-2xl md:text-3xl">M&P</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="envelope-text" class="mt-16 font-sans text-xs md:text-sm tracking-[0.4em] text-wedding-gold uppercase animate-pulse transition-opacity duration-300">
+            Tap to open
         </div>
     </div>
 
@@ -570,12 +604,12 @@
                                 <p>MRS. SALVE BEDREJO</p>
                                 <p>MRS. APRIL LOVE E. WEE</p>
                                 <p>MRS. ANNAVI E. CANIZO</p>
-                                <p>MRS. STEPANIE PAMATIAN</p>
-                                <p>MRS. ANABELLE DUENAS</p>
-                                <p>MRS. PEARL PONSICA</p>
-                                <p>MRS. MALLOU D. LOVE</p>
                                 <p>MRS. BAVERNILL TENIO</p>
                                 <p>DR. MA. ELENA L. DEFALLO</p>
+                                <p>MRS. STEPANIE PAMATIAN</p>
+                                <p>MRS. ANABELLE DUEÑAS</p>
+                                <p>MRS. PEARL PONSICA</p>
+                                <p>MRS. MALLOU D. LOVE</p>
                             </div>
                         </div>
                     </div>
@@ -805,36 +839,88 @@
 
     <!-- JavaScript -->
     <script>
-        // Preloader Logic & Floating Elements
-        window.addEventListener('load', () => {
-            const preloader = document.getElementById('preloader');
-            setTimeout(() => {
-                preloader.style.opacity = '0';
-                setTimeout(() => {
-                    preloader.style.display = 'none';
-                }, 1000);
-            }, 1500);
+        // Interactive Envelope & Preloader Logic
+        const envelopeWrapper = document.getElementById('envelope-wrapper');
+        const envelope = document.getElementById('envelope');
+        const topFlap = document.getElementById('top-flap');
+        const waxSeal = document.getElementById('wax-seal');
+        const envelopeText = document.getElementById('envelope-text');
+        const innerCard = document.getElementById('inner-card');
+        const bodyContainer = document.getElementById('body-container');
+        
+        let envelopeOpened = false;
 
-            // Show Toast Reminder after 6 seconds
+        envelope.addEventListener('click', () => {
+            if(envelopeOpened) return;
+            envelopeOpened = true;
+
+            // 1. Hide text prompt and break seal
+            envelopeText.style.opacity = '0';
+            waxSeal.style.transform = 'translate(-50%, -50%) scale(0)';
+            waxSeal.style.opacity = '0';
+
+            // 2. Flip the top flap open
+            setTimeout(() => {
+                topFlap.style.transform = 'rotateX(180deg)';
+                // Put flap behind the card after it flips halfway to avoid overlapping visually
+                setTimeout(() => {
+                    topFlap.style.zIndex = '5';
+                }, 300);
+            }, 300);
+
+            // 3. Slide the inner invitation card up out of the envelope
+            setTimeout(() => {
+                innerCard.style.transform = 'translateY(-60px)';
+            }, 900);
+
+            // 4. Fade out the whole envelope wrapper
+            setTimeout(() => {
+                envelopeWrapper.style.opacity = '0';
+                
+                // Play background music gracefully on open
+                const bgMusic = document.getElementById('bg-music');
+                const iconPlay = document.getElementById('music-icon-play');
+                const iconPause = document.getElementById('music-icon-pause');
+                if (!isPlaying) {
+                    bgMusic.play().catch(e => console.log("Audio play failed (browser policy):", e));
+                    iconPlay.classList.add('opacity-0');
+                    iconPause.classList.remove('opacity-0');
+                    isPlaying = true;
+                }
+            }, 2000);
+
+            // 5. Un-lock scrolling and remove envelope, then start toasts
+            setTimeout(() => {
+                envelopeWrapper.style.display = 'none';
+                bodyContainer.classList.remove('overflow-hidden', 'h-screen');
+                bodyContainer.classList.add('overflow-x-hidden');
+                
+                startPostLoadAnimations();
+            }, 3000);
+        });
+
+        // Start delayed UI animations after envelope is opened
+        function startPostLoadAnimations() {
+            // Show Toast Reminder after 5 seconds
             setTimeout(() => {
                 const toast = document.getElementById('floating-toast');
                 if(toast) {
                     toast.classList.remove('opacity-0', '-translate-y-10', 'pointer-events-none');
                 }
-            }, 6000);
+            }, 5000);
 
-            // Show Message Tooltip after 4 seconds
+            // Show Message Tooltip after 3 seconds
             setTimeout(() => {
                 const tooltip = document.getElementById('message-tooltip');
                 if (tooltip) {
                     tooltip.classList.remove('opacity-0', 'translate-x-4');
-                    // Automatically hide tooltip after 8 seconds so it isn't distracting
+                    // Automatically hide tooltip after 8 seconds
                     setTimeout(() => {
                         tooltip.classList.add('opacity-0', 'translate-x-4');
                     }, 8000);
                 }
-            }, 4000);
-        });
+            }, 3000);
+        }
 
         // Toast Dismissal Handlers
         const closeToast = document.getElementById('close-toast');
