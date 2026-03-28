@@ -342,7 +342,7 @@
                 </a>
             </div>
 
-            <p class="font-script text-3xl text-wedding-light/80 mt-4 z-10 relative tracking-wide drop-shadow-md">#PrincessFoundHerMarc</p>
+            <p class="font-script text-3xl text-wedding-light/80 mt-4 z-10 relative tracking-wide drop-shadow-md">#reMARCabledaywithhisPRINCESS</p>
         </div>
     </section>
 
@@ -898,6 +898,7 @@
                 <div class="pr-5 w-full">
                     <p id="live-message-name" class="font-serif font-bold text-wedding-dark text-sm leading-tight"></p>
                     <p id="live-message-text" class="font-sans text-xs text-wedding-dark/80 italic mt-1 leading-relaxed break-words"></p>
+                    <p id="live-message-time" class="font-sans text-[9px] text-wedding-dark/40 mt-2 text-right uppercase tracking-wider"></p>
                 </div>
             </div>
         </div>
@@ -1107,7 +1108,7 @@
 
         // Google Sheets Live Messages Fetcher
         const sheetId = '19Yb0Bu6e8dZTwetXX51UXnL_daymaeHNHln9KB7l7nk';
-        const queryUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&tq=SELECT B, C`; 
+        const queryUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&tq=SELECT A, B, C`; 
         let guestMessages = [];
         let currentMessageIndex = 0;
         let isHoveringMessage = false;
@@ -1122,10 +1123,37 @@
                     const data = JSON.parse(jsonString);
                     
                     if (data.table && data.table.rows) {
-                        guestMessages = data.table.rows.map(row => ({
-                            name: row.c[0] ? row.c[0].v : 'Guest',
-                            msg: row.c[1] ? row.c[1].v : ''
-                        })).filter(m => m.msg !== '' && m.name !== 'Name');
+                        guestMessages = data.table.rows.map(row => {
+                            let timeStr = '';
+                            if (row.c[0]) {
+                                const rawVal = row.c[0].v;
+                                const formattedVal = row.c[0].f || '';
+                                if (rawVal) {
+                                    try {
+                                        let d;
+                                        // Handle Google Visualization Date string format Date(Year, Month, Day, Hour, Min, Sec)
+                                        if (typeof rawVal === 'string' && rawVal.startsWith('Date')) {
+                                            const match = rawVal.match(/Date\((\d+),\s*(\d+),\s*(\d+)(?:,\s*(\d+),\s*(\d+),\s*(\d+))?\)/);
+                                            if (match) d = new Date(match[1], match[2], match[3], match[4]||0, match[5]||0, match[6]||0);
+                                        } else {
+                                            d = new Date(rawVal);
+                                        }
+                                        if (d && !isNaN(d.getTime())) {
+                                            timeStr = d.toLocaleString('en-US', { month: 'long', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit' });
+                                        } else {
+                                            timeStr = formattedVal || String(rawVal);
+                                        }
+                                    } catch(e) {
+                                        timeStr = formattedVal || String(rawVal);
+                                    }
+                                }
+                            }
+                            return {
+                                time: timeStr,
+                                name: row.c[1] ? row.c[1].v : 'Guest',
+                                msg: row.c[2] ? row.c[2].v : ''
+                            };
+                        }).filter(m => m.msg !== '' && m.name !== 'Name');
                         
                         guestMessages.reverse();
                     }
@@ -1141,9 +1169,11 @@
             const toast = document.getElementById('live-message-toast');
             const nameEl = document.getElementById('live-message-name');
             const textEl = document.getElementById('live-message-text');
+            const timeEl = document.getElementById('live-message-time');
 
             if (guestMessages.length === 0) {
                 guestMessages = [{
+                    time: new Date().toLocaleString('en-US', { month: 'long', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit' }),
                     name: "Marc & Princess",
                     msg: "Be the first to leave a wish for us! 🤍"
                 }];
@@ -1169,6 +1199,7 @@
                 const m = guestMessages[currentMessageIndex];
                 nameEl.innerText = m.name;
                 textEl.innerText = `"${m.msg}"`;
+                if(timeEl) timeEl.innerText = m.time || 'Just now';
                 
                 toast.classList.remove('translate-y-32', 'opacity-0');
                 
@@ -1241,6 +1272,7 @@
                     }
 
                     guestMessages.unshift({
+                        time: new Date().toLocaleString('en-US', { month: 'long', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit' }),
                         name: formData.get('Name'),
                         msg: formData.get('Message')
                     });
